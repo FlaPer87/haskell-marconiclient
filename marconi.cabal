@@ -1,0 +1,71 @@
+name:            marconi
+version:         0.0.1
+license:         Apache
+license-file:    LICENSE
+category:        CLI, client
+copyright:       (c) 2013, Flavio Percoco
+author:          Flavio Percoco <flaper87@gmail.com>
+maintainer:      Flavio Percoco <flaper87@gmail.com>
+stability:       experimental
+tested-with:     GHC == 7.6.3
+synopsis:        Marconi Client
+cabal-version:   >= 1.8
+homepage:        https://github.com/bos/aeson
+bug-reports:     https://github.com/bos/aeson/issues
+build-type:      Simple
+description:
+    A JSON parsing and encoding library optimized for ease of use
+    and high performance.
+
+extra-source-files:
+    README.md
+
+flag developer
+  description: operate in developer mode
+  default: False
+
+library
+  hs-source-dirs:    src
+  exposed-modules:
+    Marconi.Common.Json
+    Marconi.V1.Http.Queue
+
+  build-depends:  base
+                , text
+                , bytestring
+                , containers
+                , unordered-containers >= 0.2.3.1
+                , aeson >= 0.6.1.0
+
+                , io-streams >= 1.1.0.3
+                , http-streams >= 0.6.0
+
+  if flag(developer)
+    ghc-options: -Werror
+    ghc-prof-options: -auto-all
+
+  ghc-options: -O2 -Wall
+
+test-suite tests
+  type:           exitcode-stdio-1.0
+  hs-source-dirs: src tests
+  main-is:        TestSuite.hs
+  other-modules:  Json
+
+  ghc-options:
+    -Wall -threaded -rtsopts
+
+  build-depends:  base
+                , text
+                , bytestring
+                , containers
+                , unordered-containers >= 0.2.3.1
+                , HUnit
+                , aeson >= 0.6.1.0
+
+                , io-streams >= 1.1.0.3
+                , http-streams >= 0.6.0
+
+source-repository head
+  type:     git
+  location: git://github.com/flaper87/haskell-marconiclient.git
