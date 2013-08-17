@@ -7,11 +7,20 @@ module Marconi.V1.Http.Queue
 
 
 import System.IO.Streams (InputStream, OutputStream, stdout)
-import Data.ByteString (ByteString)
+import qualified Data.ByteString.Char8 as B
 import qualified System.IO.Streams as Streams
-import Network.Http.Client
+import qualified Network.Http.Client as C
 import Marconi.Common.Http
 
-getQueue :: ByteString -> String -> String -> IO ByteString
+getQueue :: B.ByteString -> B.ByteString -> B.ByteString -> IO B.ByteString
 getQueue s q p = do
-    get s statusHandler
+    --q <- buildRequest $ do
+    --     http POST "/api/v1/messages"
+    --     setContentType "application/json"
+    --     setHostname "clue.example.com" 80
+    --     setAccept "text/html"
+    --     setHeader "X-WhoDoneIt" "The Butler"
+    let x = s `B.append` q
+    --putStr $ show x
+    r <- buildRequest C.GET s p
+    get s r statusHandler
